@@ -1,8 +1,8 @@
-from abc import ABC, abstractmethod
+from abc import ABC, abstractclassmethod
 
 
 class Color(ABC):
-    @abstractmethod
+    @abstractclassmethod
     def getColor(self):
         pass
 
