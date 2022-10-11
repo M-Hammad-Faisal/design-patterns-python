@@ -1,8 +1,8 @@
-from abc import abstractmethod
+from abc import abstractclassmethod, ABC
 
 
-class Shape(object):
-    @abstractmethod
+class Shape(ABC):
+    @abstractclassmethod
     def draw(self):
         pass
 
@@ -28,7 +28,7 @@ class RoundedRectangle(Shape):
 
 
 class Factory(object):
-    @abstractmethod
+    @abstractclassmethod
     def getShape(self):
         pass
 
