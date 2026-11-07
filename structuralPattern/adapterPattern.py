@@ -1,6 +1,15 @@
-class US:
-    __speed = None
+"""Adapter pattern: runnable example.
 
+An Adapter translates one interface into another so incompatible classes can work together.
+
+Full lesson (explanation, pros and cons, exercises):
+https://github.com/M-Hammad-Faisal/cs-fundamentals-handbook/blob/main/04-oop/design-patterns/structural/adapter.md
+
+Run it:  python adapterPattern.py
+"""
+
+class US:
+    """The interface our application expects: speed in kilometers."""
     def __init__(self, speed):
         self.__speed = speed
 
@@ -9,38 +18,35 @@ class US:
 
 
 class UK:
-    __speed = None
-
+    """A class we cannot change (think: a third-party library): it reports MILES."""
     def __init__(self, speed):
         self.__speed = speed
 
-    def getSpeedM(self, speed=None):
-        if speed:
-            return speed
-        return str(self.__speed) + ' Kilometers'
+    def getSpeedM(self):
+        return self.__speed
 
 
-class Adapter(US, UK):
-    __speed = None
+class Adapter:
+    """Wraps a UK object and offers the US interface (getSpeed in kilometers)."""
+    MILES_TO_KM = 1.60934
 
-    def __init__(self, speed):
-        self.__speed = speed
+    def __init__(self, uk):
+        self.__uk = uk                       # composition: hold the object we adapt
 
     def getSpeed(self):
-        return str(self.getSpeedM(self.__speed) * 1.6) + ' Miles'
+        kilometers = self.__uk.getSpeedM() * self.MILES_TO_KM
+        return f"{kilometers:.1f} Kilometers"
 
 
-speed = 400
+# The client only knows ONE interface: getSpeed()
+def show_speed(label, vehicle):
+    print(f"{label}: {vehicle.getSpeed()}")
 
-# Kilometers
-usSpeed = US(speed)
-print("Speed in US:", usSpeed.getSpeed())
 
-# returns Kilometers but we want in Miles.
-# we use Adapter
-# ukSpeed = UK(speed)
-# print("Speed in UK:", ukSpeed.getSpeedM())
+speed = 100
 
-# convert Kilometers to Miles
-adapter = Adapter(speed)
-print("Speed in UK:", adapter.getSpeed())
+# Already in kilometers: works directly
+show_speed("Speed in US", US(speed))
+
+# UK reports miles, so it has no getSpeed(). We do not touch UK: we wrap it.
+show_speed("Speed in UK (adapted)", Adapter(UK(speed)))

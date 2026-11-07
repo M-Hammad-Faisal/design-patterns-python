@@ -1,3 +1,13 @@
+"""Composite pattern: runnable example.
+
+A Composite lets you treat a single object and a group of objects in the same way.
+
+Full lesson (explanation, pros and cons, exercises):
+https://github.com/M-Hammad-Faisal/cs-fundamentals-handbook/blob/main/04-oop/design-patterns/structural/composite.md
+
+Run it:  python compositePattern.py
+"""
+
 from __future__ import annotations
 from abc import ABC, abstractmethod
 

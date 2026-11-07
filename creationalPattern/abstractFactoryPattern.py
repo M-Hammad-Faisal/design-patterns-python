@@ -1,21 +1,35 @@
+"""Abstract Factory pattern: runnable example.
+
+An Abstract Factory creates whole families of related objects without naming their concrete classes.
+
+Full lesson (explanation, pros and cons, exercises):
+https://github.com/M-Hammad-Faisal/cs-fundamentals-handbook/blob/main/04-oop/design-patterns/creational/abstract-factory.md
+
+Run it:  python abstractFactoryPattern.py
+"""
+
 # imports to make abstract class and methods
-from abc import abstractclassmethod, ABC
+from abc import ABC, abstractmethod
+
 
 # making abstract Shape class or template for other shape classes
 class Shape(ABC):
-    @abstractclassmethod
+    @abstractmethod
     def draw(self):
         pass
+
 
 #  Circle Shape
 class Circle(Shape):
     def draw(self):
         print('I am Circle.')
 
+
 #  Rectangle Shape
 class Rectangle(Shape):
     def draw(self):
         print('I am Rectangle.')
+
 
 # Rounded Circle Shape
 class RoundedCircle(Shape):
@@ -28,31 +42,36 @@ class RoundedRectangle(Shape):
     def draw(self):
         print('I am Rounded Rectangle.')
 
-# Creating Factory template to make factories 
-class Factory(object):
-    @abstractclassmethod
-    def getShape(self):
+
+# Factory template to make factories (now really abstract: it cannot be created)
+class Factory(ABC):
+    @abstractmethod
+    def getShape(self, shape):
         pass
+
 
 # creating simple factory to make simple shapes
 class SimpleFactory(Factory):
+    shapes = {'Circle': Circle, 'Rectangle': Rectangle}
+
     def getShape(self, shape):
-        return globals()[shape]()
+        return self.shapes[shape]()
 
 
 # creating Round factory to make Rounded shapes
 class RoundedFactory(Factory):
-    def getShape(self, shape):
-        shape = 'Rounded'+shape
-        return globals()[shape]()
+    shapes = {'Circle': RoundedCircle, 'Rectangle': RoundedRectangle}
 
-# Creating Main Abstract Factory to Create Factories which in turn create corresponding shapes
-class AbstractFactory(object):
+    def getShape(self, shape):
+        return self.shapes[shape]()
+
+
+# Main Abstract Factory: chooses the right factory (family) for you
+class AbstractFactory:
     def getFactory(self, rounded, shape):
-        if rounded == True:
+        if rounded:
             return RoundedFactory().getShape(shape)
-        else:
-            return SimpleFactory().getShape(shape)
+        return SimpleFactory().getShape(shape)
 
 
 # Example
@@ -60,11 +79,17 @@ class AbstractFactory(object):
 # creating a Abstract Factory
 shape_factory = AbstractFactory()
 
-# creating sub factories using Main Abstract Factory
+# creating shapes using the Abstract Factory
 shape_factory.getFactory(True, 'Circle').draw()
 shape_factory.getFactory(True, 'Rectangle').draw()
 shape_factory.getFactory(False, 'Circle').draw()
 shape_factory.getFactory(False, 'Rectangle').draw()
+
+# The abstract base class really protects us now:
+try:
+    Factory()
+except TypeError as error:
+    print("Cannot create the abstract Factory:", error)
 
 
 # Theory:

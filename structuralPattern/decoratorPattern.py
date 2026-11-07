@@ -1,3 +1,13 @@
+"""Decorator pattern: runnable example.
+
+A Decorator wraps an object to add behavior while keeping the same interface.
+
+Full lesson (explanation, pros and cons, exercises):
+https://github.com/M-Hammad-Faisal/cs-fundamentals-handbook/blob/main/04-oop/design-patterns/structural/decorator.md
+
+Run it:  python decoratorPattern.py
+"""
+
 from __future__ import annotations
 from abc import ABC, abstractmethod
 
