@@ -119,5 +119,10 @@ if __name__ == "__main__":
         sms_and_slack_notifier)
     print(facebook_sms_slack_notifier.notify("Notified!"))
 
-    # Furthermore, Image is added in images folder,
-    # for pictorial view of current Example
+    # How the decorators wrap each other (innermost runs first):
+    #
+    #   FacebookNotifierDecorator( SlackNotifierDecorator( SMSNotifier ) )
+    #   -> "Facebook: Slack: SMS: Notified!"
+    #
+    # Each decorator has the same notify() interface as what it wraps, so they
+    # can be stacked in any order and any number.

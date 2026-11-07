@@ -142,5 +142,13 @@ if __name__ == "__main__":
     total_price = order.get_price()
     print(total_price)
 
-    # Furthermore, Image is added in images folder,
-    # for pictorial view of current Example
+    # Structure of this example (a tree: groups and single items are used alike):
+    #
+    #   Order
+    #   |- Receipt (10)
+    #   |- hammer_box -> Hammer (800)
+    #   `- phone_headphone_charger_box
+    #        |- phone_headphone_box -> Phone (20000), HeadPhones (2000)
+    #        `- charger_box -> Charger (1200)
+    #
+    #   Total = 10 + 800 + 20000 + 2000 + 1200 = 24010
